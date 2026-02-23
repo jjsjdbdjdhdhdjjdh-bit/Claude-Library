@@ -24,21 +24,38 @@ function Button.Create(parent, text, callback, opts)
         BorderSizePixel  = 0,
         LayoutOrder      = opts.Order or 0,
         AutoButtonColor  = false,
-        ClipsDescendants = true, -- para o ripple funcionar
+        ClipsDescendants = true,
         ZIndex           = 4,
         Parent           = parent,
     })
-    corner(btn, 6) -- era 5, levemente mais arredondado
+    corner(btn, 7)
 
-    if not isPrimary then mkStroke(btn, Theme.Border, 1) end
+    if isPrimary then
+        -- stroke interno luminoso para botão primário
+        mkStroke(btn, Theme.PrimaryHover, 1)
+    else
+        mkStroke(btn, Theme.Border, 1)
+    end
 
-    -- highlight sutil no topo
+    -- linha de highlight no topo (dá sensação de elevação)
     inst("Frame", {
-        Size             = UDim2.new(1, 0, 0, 1),
+        Size             = UDim2.new(1, -2, 0, 1),
+        Position         = UDim2.new(0, 1, 0, 0),
         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-        BackgroundTransparency = isPrimary and 0.82 or 0.92,
+        BackgroundTransparency = isPrimary and 0.78 or 0.89,
         BorderSizePixel  = 0,
-        ZIndex           = 6,
+        ZIndex           = 7,
+        Parent           = btn,
+    })
+
+    -- sombra interna na base (dá profundidade)
+    inst("Frame", {
+        Size             = UDim2.new(1, 0, 0, 2),
+        Position         = UDim2.new(0, 0, 1, -2),
+        BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+        BackgroundTransparency = 0.65,
+        BorderSizePixel  = 0,
+        ZIndex           = 7,
         Parent           = btn,
     })
 
@@ -69,24 +86,23 @@ function Button.Create(parent, text, callback, opts)
     end)
     btn.MouseButton1Down:Connect(function()
         tw(btn, fast, { BackgroundColor3 = Theme.SurfaceActive })
-        -- ripple
         local r = inst("Frame", {
             Size             = UDim2.new(0, 0, 0, 0),
             AnchorPoint      = Vector2.new(0.5, 0.5),
             Position         = UDim2.new(0.5, 0, 0.5, 0),
             BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-            BackgroundTransparency = 0.88,
+            BackgroundTransparency = 0.86,
             BorderSizePixel  = 0,
-            ZIndex           = 5,
+            ZIndex           = 6,
             Parent           = btn,
         })
         corner(r, 999)
-        local s = math.max(btn.AbsoluteSize.X, btn.AbsoluteSize.Y) * 2.2
-        TweenService:Create(r, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        local s = math.max(btn.AbsoluteSize.X, btn.AbsoluteSize.Y) * 2.4
+        TweenService:Create(r, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
             Size = UDim2.new(0, s, 0, s),
             BackgroundTransparency = 1,
         }):Play()
-        game:GetService("Debris"):AddItem(r, 0.4)
+        game:GetService("Debris"):AddItem(r, 0.45)
     end)
     btn.MouseButton1Up:Connect(function()
         tw(btn, fast, { BackgroundColor3 = bgH })
