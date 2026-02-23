@@ -863,9 +863,7 @@ function Window:CreateHomeTab(config)
         fCountLbl.Text = realTotal .. " total"
     end)
 
-    -- ════════════════════════════════════════════════════════
-    --   DISCORD BANNER
-    -- ════════════════════════════════════════════════════════
+    -- Banner do Discord
     if config.DiscordInvite and config.DiscordInvite ~= "" then
         local discordBanner = inst("Frame", {
             Size             = UDim2.new(1, 0, 0, 62),
@@ -878,7 +876,6 @@ function Window:CreateHomeTab(config)
         })
         corner(discordBanner, 8)
         mkStroke(discordBanner, Color3.fromRGB(55, 60, 140), 1)
-
         local dCircle = inst("Frame", {
             Size             = UDim2.new(0, 26, 0, 26),
             AnchorPoint      = Vector2.new(0, 0.5),
@@ -923,7 +920,6 @@ function Window:CreateHomeTab(config)
             ZIndex          = 8,
             Parent          = discordBanner,
         })
-
         local pill = inst("Frame", {
             Size             = UDim2.new(0, 0, 0, 22),
             AutomaticSize    = Enum.AutomaticSize.X,
@@ -959,7 +955,6 @@ function Window:CreateHomeTab(config)
             ZIndex          = 10,
             Parent          = pill,
         })
-
         local copying = false
         local function doCopy()
             if copying then return end
@@ -979,7 +974,6 @@ function Window:CreateHomeTab(config)
                 copying = false
             end)
         end
-
         pillBtn.MouseEnter:Connect(function()
             tw(pill,    fast, { BackgroundColor3 = Color3.fromRGB(22, 24, 55) })
             tw(pillLbl, fast, { TextColor3 = Color3.fromRGB(200, 205, 255) })
@@ -993,7 +987,6 @@ function Window:CreateHomeTab(config)
             end
         end)
         pillBtn.MouseButton1Click:Connect(doCopy)
-
         local bannerBtn = inst("TextButton", {
             Size            = UDim2.new(1, 0, 1, 0),
             BackgroundTransparency = 1,
