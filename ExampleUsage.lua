@@ -26,6 +26,11 @@ local function Import(path)
     local parts = string.split(path, "/")
     local localModule = findLocal(script, parts)
     
+    -- Also try searching in script.Parent if not found in script (useful if modules are siblings)
+    if not localModule and script.Parent then
+         localModule = findLocal(script.Parent, parts)
+    end
+    
     if localModule and localModule:IsA("ModuleScript") then
         local result = require(localModule)
         Modules[path] = result
@@ -87,8 +92,9 @@ end
 -- [[ Load UILib ]]
 -- This executes init.lua which returns the library table
 local UILib = Import("init")
+
+-- Fallback if Import fails locally for init (e.g. if init is not found by Import logic but exists)
 if not UILib then
-    -- Fallback for direct execution context where init.lua might be the main script
     if script and script.Parent and script.Parent:FindFirstChild("init") then
         UILib = require(script.Parent.init)
     else
