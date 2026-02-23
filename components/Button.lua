@@ -36,18 +36,18 @@ function Button.Create(parent, text, callback, opts)
         5, Vector2.new(0, 0.5), UDim2.new(0, 12, 0.5, 0))
     if iconImg then iconW = 14 + 8 end
 
-inst("TextLabel", {
-    Size                   = UDim2.new(1, -(12 + iconW), 1, 0),
-    Position               = UDim2.new(0, 12 + iconW, 0, 0),
-    BackgroundTransparency = 1,
-    Text                   = text,
-    TextColor3             = isPrimary and Theme.PrimaryText or Theme.TextPrimary,
-    TextSize               = 13,
-    Font                   = Enum.Font.GothamMedium,
-    TextXAlignment         = Enum.TextXAlignment.Left, -- sempre à esquerda
-    ZIndex                 = 5,
-    Parent                 = btn,
-})
+    inst("TextLabel", {
+        Size            = UDim2.new(1, -(12 + iconW), 1, 0),
+        Position        = UDim2.new(0, 12 + iconW, 0, 0),
+        BackgroundTransparency = 1,
+        Text            = text,
+        TextColor3      = isPrimary and Theme.PrimaryText or Theme.TextPrimary,
+        TextSize        = 13,
+        Font            = Enum.Font.GothamMedium,
+        TextXAlignment  = iconW > 0 and Enum.TextXAlignment.Left or Enum.TextXAlignment.Center,
+        ZIndex          = 5,
+        Parent          = btn,
+    })
 
     btn.MouseEnter:Connect(function()    tw(btn, fast, { BackgroundColor3 = bgH }) end)
     btn.MouseLeave:Connect(function()    tw(btn, fast, { BackgroundColor3 = bgN }) end)
