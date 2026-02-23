@@ -1,13 +1,14 @@
 local TweenService = game:GetService("TweenService")
 local Theme = Import("core/Theme")
 local Utils = Import("core/Utils")
+local TweenController = Import("animations/TweenController")
 
 local inst = Utils.inst
 local corner = Utils.corner
 local mkStroke = Utils.mkStroke
 local mkIcon = Utils.mkIcon
-local tw = Utils.tw
-local fast = TweenInfo.new(0.12, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+local tw = TweenController.tw
+local fast = TweenController.fast
 
 local Toggle = {}
 
@@ -88,6 +89,7 @@ function Toggle.Create(parent, label, default, callback, opts)
             BorderSizePixel  = 0,
             ZIndex           = 5,
             Parent           = row,
+            Name             = "Track"
         })
         corner(track, TH/2)
         local trackStroke = inst("UIStroke", {
@@ -127,7 +129,7 @@ function Toggle.Create(parent, label, default, callback, opts)
         ZIndex          = 7,
         Parent          = row,
     }).MouseButton1Click:Connect(function()
-        set(not state)
+        if set then set(not state) end
         if callback then callback(state) end
     end)
 
